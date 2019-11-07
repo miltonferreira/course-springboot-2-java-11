@@ -11,7 +11,7 @@ import com.jotonferreira.course.repositories.UserRepository;
 
 @Service //indica que é um serviço necessário a classe UserResource
 public class UserService {
-	// camada de serviço
+	// camada de serviço para o EndPoint em UserResource
 	
 	@Autowired // injeção de dependencia
 	private UserRepository repository; // dependencia para UserRepository

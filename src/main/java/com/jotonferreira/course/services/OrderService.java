@@ -11,7 +11,7 @@ import com.jotonferreira.course.repositories.OrderRepository;
 
 @Service //indica que é um serviço necessário a classe OrderResource
 public class OrderService {
-	// camada de serviço
+	// camada de serviço para o EndPoint em OrderResource
 	
 	@Autowired // injeção de dependencia
 	private OrderRepository repository; // dependencia para OrderRepository
