@@ -2,10 +2,19 @@ package com.jotonferreira.course.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id //indica que a chave primaria da classe
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //indica que vai ser auto-implementavel no banco de dados o valor do ID
 	private Long id;
+	
 	private String name;
 	private String email;
 	private String phone;
@@ -87,6 +96,4 @@ public class User implements Serializable{
 		return true;
 	}
 	
-	
-
 }
