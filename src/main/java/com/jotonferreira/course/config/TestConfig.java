@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.jotonferreira.course.entities.Category;
 import com.jotonferreira.course.entities.Order;
+import com.jotonferreira.course.entities.Product;
 import com.jotonferreira.course.entities.User;
 import com.jotonferreira.course.entities.enums.OrderStatus;
 import com.jotonferreira.course.repositories.CategoryRepository;
 import com.jotonferreira.course.repositories.OrderRepository;
+import com.jotonferreira.course.repositories.ProductRepository;
 import com.jotonferreira.course.repositories.UserRepository;
 
 @Configuration
@@ -30,6 +32,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired // cria dependencia e associa uma instancia de CategoryRepository
 	private CategoryRepository categoryRepository;
+	
+	@Autowired // cria dependencia e associa uma instancia de ProductRepository
+	private ProductRepository productRepository;
 	
 	// tudo vai ser executado quando a aplicação for iniciada
 	@Override
@@ -55,7 +60,14 @@ public class TestConfig implements CommandLineRunner{
 		
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3)); // salva os pedidos no BD
 		
+		// instancia os produtos ---------------------------------------------------------
+		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
 		
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5)); // salva os produtos no BD
 	}
 	
 	
