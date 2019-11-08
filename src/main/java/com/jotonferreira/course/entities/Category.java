@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_category") // nome dado a classe Order no BD
@@ -23,7 +25,10 @@ public class Category implements Serializable{
 	private String name;
 	
 	// Usando Set evita que repita a mesma categoria mais de uma vez
-	@Transient // impede que o JPA interprete a coleção
+	//@Transient // impede que o JPA interprete a coleção
+	 // relação muitos para muitos, pois uma categoria pode ter varios produtos e vice-versa
+	@JsonIgnore // evita que category fique chamando product e vice-versa em loop infinito
+	@ManyToMany(mappedBy = "categories") // indica o outro lado que mapeou as relações
 	private Set<Product> products = new HashSet<>(); // instancia o set para não ficar nula e sim vazia
 
 	public Category() {}

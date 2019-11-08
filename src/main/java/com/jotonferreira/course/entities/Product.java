@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product") // nome dado a classe Order no BD
@@ -26,7 +28,11 @@ public class Product implements Serializable{
 	private String imgURL;
 	
 	// Usando Set evita que repita a mesma categoria mais de uma vez
-	@Transient // impede que o JPA interprete a coleção
+	//@Transient // impede que o JPA interprete a coleção
+	@ManyToMany // relação muitos para muitos, pois um produto pode ter varios categorias e vice-versa
+	@JoinTable(name = "tb_product_category",  // indica o nome da table e chaves estrangeiras que vão associar as tables de produtos e categorias
+			joinColumns = @JoinColumn(name = "product_id"), // nome da chave estrangeira referente a tabela de Product
+			inverseJoinColumns = @JoinColumn(name = "category_id")) // nome da chave estrangeira referente a tabela de Category
 	private Set<Category> categories = new HashSet<>(); // instancia o set para não ficar nula e sim vazia
 	
 	public Product() {}
