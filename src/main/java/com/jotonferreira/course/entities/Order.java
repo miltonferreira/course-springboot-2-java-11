@@ -102,6 +102,19 @@ public class Order implements Serializable{
 		return items;
 	}
 	
+	// soma de todos subtotais dos itens
+	public Double getTotal() {
+		
+		double sum = 0.0;
+		
+		// varre os pedidos para pegar os subtotal's
+		for(OrderItem x : items) {
+			sum += x.getSubtotal();
+		}
+		
+		return sum; // retorna a soma do total do pedido
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
