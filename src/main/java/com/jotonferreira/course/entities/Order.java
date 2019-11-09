@@ -35,8 +35,9 @@ public class Order implements Serializable{
 	@JoinColumn(name = "client_id") //nome da chave-estrangeira 
 	private User client; // dependencia para a classe User
 	
+	// id pega no OrderItem, o order pega na dependencia do OrderItemPK
 	@OneToMany(mappedBy = "id.order") // Um pedido para vários itens - OrderItem tem id, pelo id que tem o pedido
-	private Set<OrderItem> items = new HashSet<>();
+	private Set<OrderItem> items = new HashSet<>(); // nao admite repetição do mesmo item
 	
 	public Order() {}
 
@@ -83,6 +84,7 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
+	// pega uma coleção de OrderItem como visto no UML do projeto
 	public Set<OrderItem> getItems() {
 		return items;
 	}

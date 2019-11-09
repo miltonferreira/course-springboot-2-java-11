@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_product") // nome dado a classe Order no BD
@@ -34,6 +37,10 @@ public class Product implements Serializable{
 			joinColumns = @JoinColumn(name = "product_id"), // nome da chave estrangeira referente a tabela de Product
 			inverseJoinColumns = @JoinColumn(name = "category_id")) // nome da chave estrangeira referente a tabela de Category
 	private Set<Category> categories = new HashSet<>(); // instancia o set para não ficar nula e sim vazia
+	
+	// id pega no OrderItem, o product pega na dependencia do OrderItemPK
+	@OneToMany(mappedBy = "id.product") // Um produto para vários itens - OrderItem tem id, pelo id que tem o produto
+	private Set<OrderItem> items = new HashSet<>(); // nao admite repetição do mesmo item
 	
 	public Product() {}
 
@@ -88,6 +95,20 @@ public class Product implements Serializable{
 
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	// pega uma pedido de Order como visto no UML do projeto
+	@JsonIgnore // evita que OrderItem fique chamando Product e Product fique chamando OrderItem, ficando em loop infinito
+	public Set<Order> getOrders(){
+		
+		Set<Order> set = new HashSet<>(); // cria uma nova coleção para receber os pedidos
+		
+		// varre o OrderItem para pegar os pedidos
+		for(OrderItem x : items) {
+			set.add(x.getOrder()); // adiciona os pedidos na coleção
+		}
+		
+		return set; // retorna a nova coleção com os pedidos
 	}
 
 	@Override
