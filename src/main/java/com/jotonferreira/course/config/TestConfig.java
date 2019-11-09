@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.jotonferreira.course.entities.Category;
 import com.jotonferreira.course.entities.Order;
+import com.jotonferreira.course.entities.OrderItem;
 import com.jotonferreira.course.entities.Product;
 import com.jotonferreira.course.entities.User;
 import com.jotonferreira.course.entities.enums.OrderStatus;
 import com.jotonferreira.course.repositories.CategoryRepository;
+import com.jotonferreira.course.repositories.OrderItemRepository;
 import com.jotonferreira.course.repositories.OrderRepository;
 import com.jotonferreira.course.repositories.ProductRepository;
 import com.jotonferreira.course.repositories.UserRepository;
@@ -35,6 +37,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired // cria dependencia e associa uma instancia de ProductRepository
 	private ProductRepository productRepository;
+	
+	@Autowired // cria dependencia e associa uma instancia de OrderItemRepository
+	private OrderItemRepository orderItemRepository;
 	
 	// tudo vai ser executado quando a aplicação for iniciada
 	@Override
@@ -83,8 +88,16 @@ public class TestConfig implements CommandLineRunner{
 		
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5)); // salva os produtos no BD com as associações das categorias
 		
+		// cria os relacionamentos entre pedidos e produtos no OrderItem -----------------------------
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4)); // salva os OrderItem's no BD com as associações entre pedidos e produtos
+		
 	}
-	
-	
 	
 }

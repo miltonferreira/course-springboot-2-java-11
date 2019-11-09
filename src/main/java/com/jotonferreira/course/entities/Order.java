@@ -2,6 +2,8 @@ package com.jotonferreira.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -31,6 +34,9 @@ public class Order implements Serializable{
 	@ManyToOne // indica muitos pedidos para um cliente
 	@JoinColumn(name = "client_id") //nome da chave-estrangeira 
 	private User client; // dependencia para a classe User
+	
+	@OneToMany(mappedBy = "id.order") // Um pedido para vários itens - OrderItem tem id, pelo id que tem o pedido
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Order() {}
 
@@ -75,6 +81,10 @@ public class Order implements Serializable{
 
 	public void setClient(User client) {
 		this.client = client;
+	}
+	
+	public Set<OrderItem> getItems() {
+		return items;
 	}
 
 	@Override

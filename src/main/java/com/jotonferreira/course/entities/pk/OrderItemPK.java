@@ -11,7 +11,7 @@ import com.jotonferreira.course.entities.Product;
 
 @Embeddable // ????????
 public class OrderItemPK implements Serializable{
-	// classe auxiliar para ser chave-primeira composta entre pedidos e produtos
+	// classe auxiliar para ser chave-primeira composta entre pedidos e produtos, sendo um atributo para classe OrderItem
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
