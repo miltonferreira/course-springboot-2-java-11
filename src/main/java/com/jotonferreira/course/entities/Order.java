@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -38,6 +40,9 @@ public class Order implements Serializable{
 	// id pega no OrderItem, o order pega na dependencia do OrderItemPK
 	@OneToMany(mappedBy = "id.order") // Um pedido para vários itens - OrderItem tem id, pelo id que tem o pedido
 	private Set<OrderItem> items = new HashSet<>(); // nao admite repetição do mesmo item
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // indica a dependencia em Payment - usando "cascade" faz ter o mesmo ID para os dois
+	private Payment payment;
 	
 	public Order() {}
 
@@ -84,11 +89,19 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	// pega uma coleção de OrderItem como visto no UML do projeto
 	public Set<OrderItem> getItems() {
 		return items;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

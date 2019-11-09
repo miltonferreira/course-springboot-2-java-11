@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.jotonferreira.course.entities.Category;
 import com.jotonferreira.course.entities.Order;
 import com.jotonferreira.course.entities.OrderItem;
+import com.jotonferreira.course.entities.Payment;
 import com.jotonferreira.course.entities.Product;
 import com.jotonferreira.course.entities.User;
 import com.jotonferreira.course.entities.enums.OrderStatus;
@@ -97,6 +98,13 @@ public class TestConfig implements CommandLineRunner{
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4)); // salva os OrderItem's no BD com as associações entre pedidos e produtos
+		
+		// cria os relacionamentos entre pagamento e pedido -----------------------------
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1); // cria um obj pagamento do pedido que foi pago
+		o1.setPayment(pay1); // associa pedido com pagamento
+		
+		orderRepository.save(o1); // salva novamente o pedido com o pagamento
 		
 	}
 	
